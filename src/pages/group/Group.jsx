@@ -1,6 +1,5 @@
 import "./group.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
 import { groupRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -35,18 +34,30 @@ export default function Group() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/product/" + params.row.id}>
-              <button className="productListEdit">Edit</button>
+            <Link
+              to={{
+                pathname: `/product/${params.row.id}`,
+                state: {
+                  id: params.row.id,
+                },
+              }}
+            >
+              <button className="productListEdit">상세</button>
             </Link>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
           </>
         );
       },
     },
   ];
+
+  // pathname: `/movie/${id}`,
+  // state: {
+  //     year:year,
+  //     title:title,
+  //     summary:summary,
+  //     poster:poster,
+  //     genres:genres
+  // }
 
   return (
     <div className="productList">

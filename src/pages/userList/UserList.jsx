@@ -16,26 +16,26 @@ export default function UserList() {
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "username",
-      headerName: "User",
+      headerName: "이름",
       width: 150,
       renderCell: (params) => {
         return <div className="userListUser">{params.row.username}</div>;
       },
     },
-    { field: "email", headerName: "Email", width: 200 },
+    { field: "email", headerName: "이메일", width: 200 },
     {
       field: "number",
-      headerName: "Number",
+      headerName: "연락처",
       width: 200,
     },
     {
       field: "group",
-      headerName: "Group",
+      headerName: "그룹",
       width: 200,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: "수정",
       width: 200,
       renderCell: (params) => {
         return (
@@ -43,10 +43,6 @@ export default function UserList() {
             <Link to={"/user/" + params.row.id}>
               <button className="userListEdit">Edit</button>
             </Link>
-            <DeleteOutline
-              className="userListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
           </>
         );
       },

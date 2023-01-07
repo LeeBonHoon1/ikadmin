@@ -158,4 +158,10 @@ export const groupRows = [
     groupMemberNumber: 30,
     groupHeader: "이본훈",
   },
+  {
+    id: 2,
+    group: "B",
+    groupMemberNumber: 40,
+    groupHeader: "김요셉",
+  },
 ];

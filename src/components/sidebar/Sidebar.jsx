@@ -26,8 +26,7 @@ export default function Sidebar() {
           <ul className="sidebarList">
             <Link to="/" className="link">
               <li className="sidebarListItem">
-                <LineStyle className="sidebarIcon" />
-                Home
+                <LineStyle className="sidebarIcon" />홈
               </li>
             </Link>
           </ul>
@@ -50,28 +49,23 @@ export default function Sidebar() {
           </ul>
         </div>
         <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Notifications</h3>
+          <h3 className="sidebarTitle">Staff</h3>
           <ul className="sidebarList">
             <li className="sidebarListItem">
+              <WorkOutline className="sidebarIcon" />
+              회원승인
+            </li>
+            <li className="sidebarListItem">
               <MailOutline className="sidebarIcon" />
-              Mail
+              공지등록
             </li>
             <li className="sidebarListItem">
               <ChatBubbleOutline className="sidebarIcon" />
               Messages
             </li>
-          </ul>
-        </div>
-        <div className="sidebarMenu">
-          <h3 className="sidebarTitle">Staff</h3>
-          <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              Manage
-            </li>
             <li className="sidebarListItem">
               <Report className="sidebarIcon" />
-              Logs
+              로그
             </li>
           </ul>
         </div>
