@@ -41,7 +41,7 @@ export default function Sidebar() {
                 회원
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/group" className="link">
               <li className="sidebarListItem">
                 <Storefront className="sidebarIcon" />
                 그룹
