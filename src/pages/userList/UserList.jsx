@@ -26,17 +26,17 @@ export default function UserList() {
     {
       field: "number",
       headerName: "연락처",
-      width: 200,
+      width: 170,
     },
     {
       field: "group",
       headerName: "그룹",
-      width: 200,
+      width: 150,
     },
     {
       field: "action",
       headerName: "수정",
-      width: 200,
+      width: 150,
       renderCell: (params) => {
         return (
           <>
