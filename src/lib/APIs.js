@@ -1,6 +1,7 @@
 import { get, post } from "./index";
 
-const host = "https://egback.loca.lt";
+// const host = "https://egback.loca.lt";
+const host = "http://192.168.35.50:3000";
 
 const getNoticeList = () => {
   const url = `${host}/notice/getNoticeList`;

@@ -51,22 +51,24 @@ export default function Sidebar() {
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Staff</h3>
           <ul className="sidebarList">
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              회원승인
-            </li>
-            <li className="sidebarListItem">
-              <MailOutline className="sidebarIcon" />
-              공지등록
-            </li>
-            <li className="sidebarListItem">
-              <ChatBubbleOutline className="sidebarIcon" />
-              Messages
-            </li>
-            <li className="sidebarListItem">
-              <Report className="sidebarIcon" />
-              로그
-            </li>
+            <Link to="/newUser" className="link">
+              <li className="sidebarListItem">
+                <WorkOutline className="sidebarIcon" />
+                회원승인
+              </li>
+            </Link>
+            <Link to="/notice" className="link">
+              <li className="sidebarListItem">
+                <MailOutline className="sidebarIcon" />
+                공지등록
+              </li>
+            </Link>
+            <Link to="/log" className="link">
+              <li className="sidebarListItem">
+                <Report className="sidebarIcon" />
+                로그
+              </li>
+            </Link>
           </ul>
         </div>
       </div>

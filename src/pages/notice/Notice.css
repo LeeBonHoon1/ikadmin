@@ -1,13 +1,14 @@
-.userList {
+.noticeList {
+  display: flex;
   flex: 4;
 }
 
-.userListUser {
+.noticeListUser {
   display: flex;
   align-items: center;
 }
 
-.userListImg {
+.noticeListImg {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -15,7 +16,7 @@
   margin-right: 10px;
 }
 
-.userListEdit {
+.noticeListEdit {
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
@@ -25,12 +26,8 @@
   margin-right: 20px;
 }
 
-.userListDelete {
-  border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
-  background-color: red;
-  color: white;
-  cursor: pointer;
-  margin-right: 20px;
+.selectBox {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
 }

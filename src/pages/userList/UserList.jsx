@@ -4,12 +4,22 @@ import { DeleteOutline } from "@material-ui/icons";
 import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Typography } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 export default function UserList() {
+  const history = useHistory();
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
     setData(data.filter((item) => item.id !== id));
+  };
+
+  const detailHandler = (params) => {
+    console.log(params);
+    // history.push({
+    //   pathname: "user",
+    // });
   };
 
   const columns = [
@@ -40,9 +50,20 @@ export default function UserList() {
       renderCell: (params) => {
         return (
           <>
-            <Link to={"/user/" + params.row.id}>
-              <button className="userListEdit">Edit</button>
-            </Link>
+            {/* <Link to={"/user/" + params.row.id}> */}
+            <button
+              className="userListEdit"
+              onClick={() => {
+                history.push({
+                  pathname: "/user/" + params.row.id,
+                  state: {
+                    userInfo: params.row,
+                  },
+                });
+              }}
+            >
+              수정
+            </button>
           </>
         );
       },
@@ -51,6 +72,9 @@ export default function UserList() {
 
   return (
     <div className="userList">
+      <Typography variant="h4" style={{ marginBottom: "10px" }}>
+        회원
+      </Typography>
       <DataGrid
         rows={data}
         disableSelectionOnClick

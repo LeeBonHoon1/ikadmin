@@ -1,20 +1,16 @@
-import "./newUser.css";
+import "./log.css";
 import { DataGrid } from "@material-ui/data-grid";
+import { DeleteOutline } from "@material-ui/icons";
 import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Typography } from "@material-ui/core";
 
-export default function NewUser() {
+export default function Log() {
   const [data, setData] = useState(userRows);
 
   const handleDelete = (id) => {
-    alert("delete");
-    // setData(data.filter((item) => item.id !== id));
-  };
-
-  const handleConfirm = () => {
-    alert("confirm");
+    setData(data.filter((item) => item.id !== id));
   };
 
   const columns = [
@@ -24,7 +20,7 @@ export default function NewUser() {
       headerName: "이름",
       width: 150,
       renderCell: (params) => {
-        return <div className="userListUser">{params.row.username}</div>;
+        return <div className="logUser">{params.row.username}</div>;
       },
     },
     { field: "email", headerName: "이메일", width: 200 },
@@ -45,12 +41,9 @@ export default function NewUser() {
       renderCell: (params) => {
         return (
           <>
-            <button className="userListEdit" onClick={handleConfirm}>
-              승인
-            </button>
-            <button className="userListDelete" onClick={handleDelete}>
-              거절
-            </button>
+            <Link to={"/user/" + params.row.id}>
+              <button className="logEdit">수정</button>
+            </Link>
           </>
         );
       },
@@ -58,9 +51,9 @@ export default function NewUser() {
   ];
 
   return (
-    <div className="userList">
+    <div className="log">
       <Typography variant="h4" style={{ marginBottom: "10px" }}>
-        회원승인
+        회원
       </Typography>
       <DataGrid
         rows={data}

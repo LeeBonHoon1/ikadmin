@@ -1,7 +1,9 @@
 import "./widgetSm.css";
 import { Visibility } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 export default function WidgetSm() {
+  const history = useHistory();
   const newMember = [
     {
       name: "이본훈",
@@ -29,7 +31,7 @@ export default function WidgetSm() {
           }
           return (
             <li className="widgetSmListItem">
-              <div className="widgetSmUser">
+              <div className="widgetSmUser" key={idx}>
                 <span className="widgetSmUsername">
                   {item.name} ({item.number})
                 </span>
@@ -37,7 +39,12 @@ export default function WidgetSm() {
                   {item.sortation === 1 ? "강사" : "학생"}
                 </span>
               </div>
-              <button className="widgetSmButton">
+              <button
+                className="widgetSmButton"
+                onClick={() => {
+                  history.push("/log");
+                }}
+              >
                 <Visibility className="widgetSmIcon" />
                 Display
               </button>

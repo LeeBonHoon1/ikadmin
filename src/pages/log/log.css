@@ -1,13 +1,13 @@
-.userList {
+.log {
   flex: 4;
 }
 
-.userListUser {
+.logUser {
   display: flex;
   align-items: center;
 }
 
-.userListImg {
+.logImg {
   width: 32px;
   height: 32px;
   border-radius: 50%;
@@ -15,7 +15,7 @@
   margin-right: 10px;
 }
 
-.userListEdit {
+.logEdit {
   border: none;
   border-radius: 10px;
   padding: 5px 10px;
@@ -25,12 +25,7 @@
   margin-right: 20px;
 }
 
-.userListDelete {
-  border: none;
-  border-radius: 10px;
-  padding: 5px 10px;
-  background-color: red;
-  color: white;
+.logDelete {
+  color: red;
   cursor: pointer;
-  margin-right: 20px;
 }

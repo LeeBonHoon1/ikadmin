@@ -71,7 +71,7 @@ const Login = () => {
     setLoginPassword(e.target.value);
   };
 
-  const loginSubmit = (e) => {
+  const loginSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
     if (!loginEmail) {
@@ -90,28 +90,43 @@ const Login = () => {
       password: loginPassword,
     };
 
-    setTimeout(() => {
-      resetInput();
-      setLoading(false);
-      dispatch(
-        userSlice.actions.setUser({
-          email: "test@gmail.com",
-          sortation: 1, // 강사
-          // sortation: 2, // 학생
-        })
-      );
-      history.push("/");
-    }, 2000);
+    // setTimeout(() => {
+    //   resetInput();
+    //   setLoading(false);
+    //   dispatch(
+    //     userSlice.actions.setUser({
+    //       email: "test@gmail.com",
+    //       sortation: 1, // 강사
+    //       // sortation: 2, // 학생
+    //     })
+    //   );
+    //   history.push("/");
+    // }, 2000);
 
-    // APIs.signIn(param)
-    //   .then((res) => {
-    //     console.log(res);
-    //   setLoading(false)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   setLoading(false)
-    //   });
+    await APIs.signIn(param)
+      .then((res) => {
+        dispatch(
+          userSlice.actions.setUser({
+            email: res[0].EMAIL,
+            name: res[0].NAME,
+            number: res[0].NUMBER,
+            password: res[0].PASSWORD,
+            userIdx: res[0].USER_IDX,
+            sortation: res[0].SORTATION, // 강사
+            // sortation: 2, // 학생
+          })
+        );
+        console.log("res ::", res);
+        setLoading(false);
+        resetInput();
+        history.push("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("잠시후에 다시 시도해주세요");
+        resetInput();
+        setLoading(false);
+      });
   };
 
   //signup handler
@@ -147,13 +162,13 @@ const Login = () => {
       return;
     }
 
-    // if (
-    //   !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
-    //     signupEmail
-    //   )
-    // ) {
-    //   alert("올바른 이메일 주소가 아닙니다.");
-    // }
+    if (
+      !/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(
+        signupEmail
+      )
+    ) {
+      alert("올바른 이메일 주소가 아닙니다.");
+    }
 
     if (!signupNumber) {
       alert("연락처를 입력해주세요");
@@ -169,6 +184,19 @@ const Login = () => {
     };
 
     console.log(param);
+
+    // APIs.signupRequest(param)
+    //   .then((res) => {
+    //     console.log(res);
+    //     setLoading(false);
+    //     resetInput();
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     setLoading(false);
+    //     resetInput();
+    //   });
+
     resetInput();
     setLoading(false);
   };

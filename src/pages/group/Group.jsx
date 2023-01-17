@@ -3,6 +3,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { groupRows } from "../../dummyData";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Typography } from "@material-ui/core";
 
 export default function Group() {
   const [data, setData] = useState(groupRows);
@@ -38,7 +39,7 @@ export default function Group() {
               to={{
                 pathname: `/product/${params.row.id}`,
                 state: {
-                  id: params.row.id,
+                  userInfo: params.row,
                 },
               }}
             >
@@ -50,17 +51,11 @@ export default function Group() {
     },
   ];
 
-  // pathname: `/movie/${id}`,
-  // state: {
-  //     year:year,
-  //     title:title,
-  //     summary:summary,
-  //     poster:poster,
-  //     genres:genres
-  // }
-
   return (
     <div className="productList">
+      <Typography variant="h4" style={{ marginBottom: "10px" }}>
+        그룹
+      </Typography>
       <DataGrid
         rows={data}
         disableSelectionOnClick

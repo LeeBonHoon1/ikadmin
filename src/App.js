@@ -10,6 +10,8 @@ import Group from "./pages/group/Group";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
+import Notice from "./pages/notice/Notice";
+import Log from "./pages/log/Log";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -43,8 +45,14 @@ function App() {
                 <Route path="/product/:productId">
                   <Product />
                 </Route>
+                <Route path="/notice">
+                  <Notice />
+                </Route>
                 <Route path="/newproduct">
                   <NewProduct />
+                </Route>
+                <Route path="/log">
+                  <Log />
                 </Route>
               </Switch>
             </div>
