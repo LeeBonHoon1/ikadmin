@@ -90,19 +90,6 @@ const Login = () => {
       password: loginPassword,
     };
 
-    // setTimeout(() => {
-    //   resetInput();
-    //   setLoading(false);
-    //   dispatch(
-    //     userSlice.actions.setUser({
-    //       email: "test@gmail.com",
-    //       sortation: 1, // 강사
-    //       // sortation: 2, // 학생
-    //     })
-    //   );
-    //   history.push("/");
-    // }, 2000);
-
     await APIs.signIn(param)
       .then((res) => {
         dispatch(
@@ -112,11 +99,10 @@ const Login = () => {
             number: res[0].NUMBER,
             password: res[0].PASSWORD,
             userIdx: res[0].USER_IDX,
-            sortation: res[0].SORTATION, // 강사
-            // sortation: 2, // 학생
+            sortation: res[0].SORTATION,
           })
         );
-        console.log("res ::", res);
+
         setLoading(false);
         resetInput();
         history.push("/");
@@ -183,19 +169,19 @@ const Login = () => {
       sortation: !toggle ? 1 : 2,
     };
 
-    console.log(param);
-
-    // APIs.signupRequest(param)
-    //   .then((res) => {
-    //     console.log(res);
-    //     setLoading(false);
-    //     resetInput();
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //     setLoading(false);
-    //     resetInput();
-    //   });
+    APIs.signupRequest(param)
+      .then((res) => {
+        if (param.sortation === 2) {
+          alert("관리자 승인 후 로그인해주세요!");
+        }
+        setLoading(false);
+        resetInput();
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        resetInput();
+      });
 
     resetInput();
     setLoading(false);
@@ -250,6 +236,15 @@ const Login = () => {
               <i class="fa-regular fa-user" />
               <input
                 type="text"
+                placeholder="email"
+                value={signupEmail}
+                onChange={signupEmailHandler}
+              />
+            </div>
+            <div className="input-field">
+              <i class="fa-regular fa-user" />
+              <input
+                type="text"
                 placeholder="name"
                 value={signupName}
                 onChange={signupNameHandler}
@@ -262,15 +257,6 @@ const Login = () => {
                 placeholder="password"
                 value={signupPassword}
                 onChange={signupPasswordHandler}
-              />
-            </div>
-            <div className="input-field">
-              <i class="fa-regular fa-user" />
-              <input
-                type="text"
-                placeholder="email"
-                value={signupEmail}
-                onChange={signupEmailHandler}
               />
             </div>
             <div className="input-field">

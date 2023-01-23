@@ -31,7 +31,7 @@ export default function User() {
                 <label>이름</label>
                 <input
                   type="text"
-                  placeholder={info.username}
+                  placeholder={info.NAME}
                   className="userUpdateInput"
                 />
               </div>
@@ -40,7 +40,7 @@ export default function User() {
                 <label>이메일</label>
                 <input
                   type="text"
-                  placeholder={info.email}
+                  placeholder={info.EMAIL}
                   className="userUpdateInput"
                 />
               </div>
@@ -48,7 +48,7 @@ export default function User() {
                 <label>전화번호</label>
                 <input
                   type="text"
-                  placeholder={info.number}
+                  placeholder={info.NUMBER}
                   className="userUpdateInput"
                 />
               </div>
@@ -57,7 +57,7 @@ export default function User() {
                 <input
                   type="text"
                   className="userUpdateInput"
-                  placeholder={info.group}
+                  placeholder={info.GROUP ? info.GROUP : "그룹없음"}
                 />
               </div>
             </div>

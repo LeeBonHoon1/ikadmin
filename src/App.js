@@ -11,12 +11,14 @@ import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Login from "./pages/login/Login";
 import Notice from "./pages/notice/Notice";
+import NoticeList from "./pages/noticeList/NoticeList";
 import Log from "./pages/log/Log";
 import { useSelector } from "react-redux";
 
 function App() {
-  const isLoggedIn = useSelector((state) => !!state.user.email);
-  console.log(isLoggedIn);
+  const isLoggedIn = useSelector(
+    (state) => !!state.user.email && state.user.sortation === 1
+  );
 
   return (
     <>
@@ -29,6 +31,9 @@ function App() {
               <Switch>
                 <Route exact path="/">
                   <Home />
+                </Route>
+                <Route exact path="/noticelist">
+                  <NoticeList />
                 </Route>
                 <Route path="/users">
                   <UserList />

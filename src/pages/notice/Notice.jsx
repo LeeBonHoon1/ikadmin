@@ -1,8 +1,4 @@
 import "./Notice.css";
-import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import {
   Typography,
@@ -13,17 +9,10 @@ import {
   Button,
   Box,
 } from "@material-ui/core";
+import { useSelector } from "react-redux";
+import APIs from "../../lib/APIs";
+import { useHistory } from "react-router-dom";
 
-const currencies = [
-  {
-    value: "A",
-    label: "전체",
-  },
-  {
-    value: "B",
-    label: "그룹",
-  },
-];
 const group = [
   {
     value: "A",
@@ -36,28 +25,79 @@ const group = [
 ];
 
 export default function Notice() {
-  const [data, setData] = useState(userRows);
+  const history = useHistory();
+  const userInfo = useSelector((state) => state.user);
   const [select, setSelect] = useState("");
   const [showGroupSelect, setShowGroupSelect] = useState(false);
+  const [content, setContent] = useState("");
+  const [title, setTitle] = useState("");
+  const [target, setTarget] = useState("");
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+  const titleHandler = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const contentHandler = (e) => {
+    setContent(e.target.value);
   };
 
   const selectHandler = (e) => {
-    if (e.target.value === "group") setShowGroupSelect(true);
-    if (e.target.value === "all") setShowGroupSelect(false);
+    e.target.value === "group"
+      ? setShowGroupSelect(true)
+      : setShowGroupSelect(false);
     setSelect(e.target.value);
+  };
+
+  const targetHandler = (e) => {
+    setTarget(e.target.value);
+  };
+
+  const resetInput = () => {
+    setTitle("");
+    setContent("");
+    setSelect("");
+  };
+
+  const submitNotice = async () => {
+    const param = {
+      title: title,
+      content: content,
+      userIdx: userInfo.userIdx,
+      // target: select === all ? 0 : target
+    };
+
+    await APIs.createNotice(param)
+      .then((res) => {
+        console.log("createNotice :::", res);
+        resetInput();
+        history.push("/noticelist");
+        alert("공지가 등록됐습니다.");
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("잠시 후 다시 시도해주세요.");
+      });
   };
 
   return (
     <>
       <div className="noticeList">
         <Box style={{ flex: 3 }}>
-          <Typography variant="h4">공지사항</Typography>
+          <Typography variant="h4">공지등록</Typography>
+          <TextField
+            placeholder="타이틀을 입력해주세요."
+            multiline
+            onChange={titleHandler}
+            variant="outlined"
+            style={{
+              width: "100%",
+              marginTop: "10px",
+            }}
+          />
           <TextField
             placeholder="공지사항을 입력해주세요"
             multiline
+            onChange={contentHandler}
             rows={20}
             variant="outlined"
             style={{
@@ -78,6 +118,7 @@ export default function Notice() {
                 id="outlined-select-currency"
                 select
                 helperText="그룹을 선택해주세요."
+                onChange={targetHandler}
                 style={{
                   marginTop: "10px",
                 }}
@@ -94,6 +135,7 @@ export default function Notice() {
               size="large"
               color="primary"
               style={{ marginTop: "10px" }}
+              onClick={submitNotice}
             >
               등록
             </Button>

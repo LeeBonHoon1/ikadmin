@@ -4,10 +4,10 @@ import {
   PermIdentity,
   Storefront,
   MailOutline,
-  ChatBubbleOutline,
   WorkOutline,
   Report,
 } from "@material-ui/icons";
+import ContactMailIcon from "@material-ui/icons/ContactMail";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -27,6 +27,14 @@ export default function Sidebar() {
             <Link to="/" className="link">
               <li className="sidebarListItem">
                 <LineStyle className="sidebarIcon" />홈
+              </li>
+            </Link>
+          </ul>
+          <ul className="sidebarList">
+            <Link to="/noticelist" className="link">
+              <li className="sidebarListItem">
+                <ContactMailIcon className="sidebarIcon" />
+                공지사항
               </li>
             </Link>
           </ul>

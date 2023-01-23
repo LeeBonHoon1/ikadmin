@@ -1,7 +1,7 @@
 import { get, post } from "./index";
 
-// const host = "https://egback.loca.lt";
-const host = "http://192.168.35.50:3000";
+const host =
+  "http://ec2-18-182-33-159.ap-northeast-1.compute.amazonaws.com:3000";
 
 const getNoticeList = () => {
   const url = `${host}/notice/getNoticeList`;
@@ -29,12 +29,24 @@ const getSearchUser = (body) => {
   return post({ url, body });
 };
 
+const createNotice = (body) => {
+  const url = `${host}/notice/postNotice`;
+  return post({ url, body });
+};
+
+const getUserList = (body) => {
+  const url = `${host}/users/userList`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
   signIn,
   checkEmail,
   getSearchUser,
+  createNotice,
+  getUserList,
 };
 
 export default APIs;
