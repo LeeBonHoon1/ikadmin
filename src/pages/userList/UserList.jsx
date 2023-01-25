@@ -1,16 +1,15 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { userRows } from "../../dummyData";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import APIs from "../../lib/APIs";
-import { useEffect, useCallback } from "react";
 
-export default function UserList() {
+export default function UserList({ data }) {
   const history = useHistory();
-  const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     getUserList();
@@ -31,11 +30,7 @@ export default function UserList() {
         alert("잠시후에 다시 시도해주세요.");
       });
   }, []);
-  // ADMISSION: "0"
-  // EMAIL: "string2"
-  // NAME: "string3"
-  // NUMBER: "string2"
-  // SORTATION: 0
+
   const columns = [
     { field: "USER_IDX", headerName: "ID", width: 90 },
     {

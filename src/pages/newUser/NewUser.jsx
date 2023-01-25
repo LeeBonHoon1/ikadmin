@@ -1,16 +1,37 @@
 import "./newUser.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { userRows } from "../../dummyData";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
+import APIs from "../../lib/APIs";
 
 export default function NewUser() {
-  const [data, setData] = useState(userRows);
+  const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
+  const getUserList = useCallback(async () => {
+    setLoading(true);
+    await APIs.getUserList()
+      .then((res) => {
+        let newArr = res.filter((item) => {
+          return item.ADMISSION === "0";
+        });
+        setUser(newArr);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert("잠시후에 다시 시도해주세요.");
+      });
+  }, []);
 
   const handleDelete = (id) => {
     alert("delete");
-    // setData(data.filter((item) => item.id !== id));
   };
 
   const handleConfirm = () => {
@@ -18,24 +39,24 @@ export default function NewUser() {
   };
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "USER_IDX", headerName: "ID", width: 90 },
     {
-      field: "username",
+      field: "NAME",
       headerName: "이름",
       width: 150,
       renderCell: (params) => {
-        return <div className="userListUser">{params.row.username}</div>;
+        return <div className="userListUser">{params.row.NAME}</div>;
       },
     },
-    { field: "email", headerName: "이메일", width: 200 },
+    { field: "EMAIL", headerName: "이메일", width: 200 },
     {
-      field: "number",
+      field: "NUMBER",
       headerName: "연락처",
       width: 170,
     },
     {
-      field: "group",
-      headerName: "그룹",
+      field: "SORTATION",
+      headerName: "구분",
       width: 150,
     },
     {
@@ -58,17 +79,22 @@ export default function NewUser() {
   ];
 
   return (
-    <div className="userList">
-      <Typography variant="h4" style={{ marginBottom: "10px" }}>
-        회원승인
-      </Typography>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={10}
-        checkboxSelection
-      />
-    </div>
+    <>
+      {!loading ? (
+        <div className="userList">
+          <Typography variant="h4" style={{ marginBottom: "10px" }}>
+            회원승인
+          </Typography>
+          <DataGrid
+            rows={user}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={10}
+            checkboxSelection
+            getRowId={(row) => row.USER_IDX}
+          />
+        </div>
+      ) : null}
+    </>
   );
 }

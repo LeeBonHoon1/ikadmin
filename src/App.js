@@ -13,12 +13,23 @@ import Login from "./pages/login/Login";
 import Notice from "./pages/notice/Notice";
 import NoticeList from "./pages/noticeList/NoticeList";
 import Log from "./pages/log/Log";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchHome } from "./slices/admission";
+import { useEffect } from "react";
 
 function App() {
+  const dispatch = useDispatch();
   const isLoggedIn = useSelector(
     (state) => !!state.user.email && state.user.sortation === 1
   );
+  const { data, isLoaded } = useSelector((store) => store.admission);
+  console.log("-------------");
+  console.log(data);
+  console.log("-------------");
+
+  useEffect(() => {
+    dispatch(fetchHome());
+  }, []);
 
   return (
     <>
