@@ -22,10 +22,6 @@ function App() {
   const isLoggedIn = useSelector(
     (state) => !!state.user.email && state.user.sortation === 1
   );
-  const { data, isLoaded } = useSelector((store) => store.admission);
-  console.log("-------------");
-  console.log(data);
-  console.log("-------------");
 
   useEffect(() => {
     dispatch(fetchHome());
