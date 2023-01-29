@@ -1,6 +1,7 @@
 import { DataGrid } from "@material-ui/data-grid";
 import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import APIs from "../../lib/APIs";
 import moment from "moment";
@@ -56,6 +57,27 @@ export default function UserList() {
       field: "CONTENT",
       headerName: "내용",
       width: 300,
+    },
+    {
+      field: "action",
+      headerName: "수정",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link
+              to={{
+                pathname: `/noticeDetail/${params.row.NOTICE_IDX}`,
+                state: {
+                  noticeInfo: params.row,
+                },
+              }}
+            >
+              <button className="productListEdit">상세보기</button>
+            </Link>
+          </>
+        );
+      },
     },
   ];
 

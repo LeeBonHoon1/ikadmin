@@ -8,6 +8,7 @@ import {
   Report,
 } from "@material-ui/icons";
 import ContactMailIcon from "@material-ui/icons/ContactMail";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -71,6 +72,7 @@ export default function Sidebar() {
                 공지등록
               </li>
             </Link>
+
             <Link to="/log" className="link">
               <li className="sidebarListItem">
                 <Report className="sidebarIcon" />

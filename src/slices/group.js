@@ -3,46 +3,40 @@ import APIs from "../lib/APIs";
 
 const initialState = {
   isLoading: false,
-  admission: "",
-  email: "",
-  name: "",
-  number: "",
-  sortation: 0,
-  userIdx: 0,
-  group: "",
+  group: [],
 };
 
-export const fetchHome = createAsyncThunk(
-  "home/fetchHome",
+export const fetchGroup = createAsyncThunk(
+  "home/fetchGroup",
   async (_, thunkAPI) => {
     try {
-      const response = await APIs.getUserList();
+      const response = await APIs.getGroupList();
       return response;
     } catch (err) {
       return thunkAPI.rejectWithValue("Something went wrong.");
     }
   }
 );
-const admissionSlice = createSlice({
-  name: "user",
+const groupSlice = createSlice({
+  name: "group",
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchHome.pending.type]: (state, action) => {
+    [fetchGroup.pending.type]: (state, action) => {
       state.isLoaded = true;
     },
-    [fetchHome.fulfilled.type]: (state, action) => {
+    [fetchGroup.fulfilled.type]: (state, action) => {
       const { payload } = action;
 
       state.data = payload;
       state.isLoaded = false;
     },
-    [fetchHome.rejected.type]: (state, action) => {
+    [fetchGroup.rejected.type]: (state, action) => {
       state.isLoaded = false;
     },
   },
 });
 
-export const {} = admissionSlice.actions;
+export const {} = groupSlice.actions;
 
-export default admissionSlice;
+export default groupSlice;

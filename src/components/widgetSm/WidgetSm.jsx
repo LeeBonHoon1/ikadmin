@@ -11,7 +11,7 @@ export default function WidgetSm() {
 
   useEffect(() => {
     const newArr = data.filter((item) => {
-      return item.ADMISSION === "0";
+      return item.ADMISSION === "0" && item.SORTATION !== 1;
     });
     setList(newArr);
   }, []);
@@ -39,7 +39,7 @@ export default function WidgetSm() {
                   <button
                     className="widgetSmButton"
                     onClick={() => {
-                      history.push("/log");
+                      history.push("/newUser");
                     }}
                   >
                     <Visibility className="widgetSmIcon" />

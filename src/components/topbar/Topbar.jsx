@@ -15,11 +15,11 @@ export default function Topbar() {
 
   useEffect(() => {
     const list = data.filter((item) => {
-      return item.ADMISSION === "0";
+      return item.ADMISSION === "0" && item.SORTATION !== 1;
     });
 
     setAdmission(list.length);
-  }, []);
+  }, [dispatch]);
 
   const logoutHandler = () => {
     dispatch(

@@ -1,6 +1,5 @@
 import "./userList.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { userRows } from "../../dummyData";
 import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -19,8 +18,8 @@ export default function UserList({ data }) {
     setLoading(true);
     await APIs.getUserList()
       .then((res) => {
-        let newArr = res.map((item, idx) => {
-          return item;
+        let newArr = res?.map((item, idx) => {
+          return item || "";
         });
         setUser(newArr);
         setLoading(false);
@@ -30,6 +29,10 @@ export default function UserList({ data }) {
         alert("잠시후에 다시 시도해주세요.");
       });
   }, []);
+
+  console.log("--------");
+  console.log(user);
+  console.log("--------");
 
   const columns = [
     { field: "USER_IDX", headerName: "ID", width: 90 },
@@ -48,8 +51,8 @@ export default function UserList({ data }) {
       width: 170,
     },
     {
-      field: "SORTATION",
-      headerName: "구분",
+      field: "group_name",
+      headerName: "그룹",
       width: 150,
     },
     {
@@ -63,7 +66,7 @@ export default function UserList({ data }) {
               className="userListEdit"
               onClick={() => {
                 history.push({
-                  pathname: "/user/" + params.row.id,
+                  pathname: "/user/" + params.row.USER_IDX,
                   state: {
                     userInfo: params.row,
                   },

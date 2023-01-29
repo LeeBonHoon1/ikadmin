@@ -19,7 +19,7 @@ export default function NewUser() {
     await APIs.getUserList()
       .then((res) => {
         let newArr = res.filter((item) => {
-          return item.ADMISSION === "0";
+          return item.ADMISSION === "0" && item.SORTATION !== 1;
         });
         setUser(newArr);
         setLoading(false);
@@ -53,11 +53,6 @@ export default function NewUser() {
       field: "NUMBER",
       headerName: "연락처",
       width: 170,
-    },
-    {
-      field: "SORTATION",
-      headerName: "구분",
-      width: 150,
     },
     {
       field: "action",

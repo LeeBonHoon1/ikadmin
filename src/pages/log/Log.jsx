@@ -53,7 +53,7 @@ export default function Log() {
   return (
     <div className="log">
       <Typography variant="h4" style={{ marginBottom: "10px" }}>
-        회원
+        로그
       </Typography>
       <DataGrid
         rows={data}

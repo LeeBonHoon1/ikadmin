@@ -5,7 +5,6 @@ const host =
 
 const getNoticeList = () => {
   const url = `${host}/notice/getNoticeList`;
-
   return get({ url });
 };
 
@@ -39,6 +38,36 @@ const getUserList = (body) => {
   return post({ url, body });
 };
 
+const getGroupList = (body) => {
+  const url = `${host}/group/groupInfoList`;
+  return post({ url, body });
+};
+
+const getGroupDetail = (body) => {
+  const url = `${host}/group/groupDetailInfo`;
+  return post({ url, body });
+};
+
+const getUserLog = (body) => {
+  const url = `${host}/users/userNoticeLog`;
+  return post({ url, body });
+};
+
+const editNotice = (body) => {
+  const url = `${host}/notice/editNotice`;
+  return post({ url, body });
+};
+
+const deleteNotice = (body) => {
+  const url = `${host}/notice/deleteNotice`;
+  return post({ url, body });
+};
+
+const editUser = (body) => {
+  const url = `${host}/users/editUser`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
@@ -47,6 +76,12 @@ const APIs = {
   getSearchUser,
   createNotice,
   getUserList,
+  getGroupList,
+  getGroupDetail,
+  getUserLog,
+  editNotice,
+  deleteNotice,
+  editUser,
 };
 
 export default APIs;
