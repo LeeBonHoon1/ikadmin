@@ -3,13 +3,7 @@ import APIs from "../lib/APIs";
 
 const initialState = {
   isLoading: false,
-  admission: "",
-  email: "",
-  name: "",
-  number: "",
-  sortation: 0,
-  userIdx: 0,
-  group: "",
+  data: [],
 };
 
 export const fetchHome = createAsyncThunk(
@@ -33,7 +27,6 @@ const admissionSlice = createSlice({
     },
     [fetchHome.fulfilled.type]: (state, action) => {
       const { payload } = action;
-
       state.data = payload;
       state.isLoaded = false;
     },

@@ -4,26 +4,27 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-export default function WidgetSm() {
+export default function WidgetSm({ test, loading }) {
   const history = useHistory();
-  const { data, isLoaded } = useSelector((store) => store.admission);
   const [list, setList] = useState([]);
 
   useEffect(() => {
-    const newArr = data.filter((item) => {
-      return item.ADMISSION === "0" && item.SORTATION !== 1;
-    });
-    setList(newArr);
+    if (!loading) {
+      const newArr = test.filter((item) => {
+        return item.ADMISSION === "0" && item.SORTATION !== 1;
+      });
+      setList(newArr);
+    }
   }, []);
 
   return (
     <>
-      {!isLoaded ? (
+      {!loading ? (
         <div className="widgetSm">
           <span className="widgetSmTitle">회원 승인 대기</span>
           <ul className="widgetSmList">
             {list.map((item, idx) => {
-              if (idx === 5) {
+              if (idx >= 5) {
                 return;
               }
               return (

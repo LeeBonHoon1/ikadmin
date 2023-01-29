@@ -68,6 +68,16 @@ const editUser = (body) => {
   return post({ url, body });
 };
 
+const userAdmission = (body) => {
+  const url = `${host}/users/userAdmission`;
+  return post({ url, body });
+};
+
+const userRegistGroup = (body) => {
+  const url = `${host}/users/userRegistGroup`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
@@ -82,6 +92,8 @@ const APIs = {
   editNotice,
   deleteNotice,
   editUser,
+  userRegistGroup,
+  userAdmission,
 };
 
 export default APIs;

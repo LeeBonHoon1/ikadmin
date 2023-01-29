@@ -1,4 +1,4 @@
-import { Button, MenuItem, Select } from "@material-ui/core";
+import { Button, MenuItem, Select, NativeSelect } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import APIs from "../../lib/APIs";
@@ -12,7 +12,7 @@ export default function User() {
   const [name, setName] = useState(NAME);
   const [number, setNumber] = useState(NUMBER);
   const [group, setGroup] = useState([]);
-  const [selectGroup, setSelectGroup] = useState(group_name);
+  const [selectGroup, setSelectGroup] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -66,9 +66,13 @@ export default function User() {
   }, []);
 
   const editUserInfo = async () => {
+    if (!selectGroup) {
+      alert("그룹을 선택해주세요.");
+      return;
+    }
     const param = {
       user_idx: USER_IDX,
-      group_idx: selectGroup,
+      group_idx: selectGroup === "" ? group_name : selectGroup,
       number,
       name,
     };
@@ -126,9 +130,9 @@ export default function User() {
                   <div className="userUpdateItem">
                     <label>그룹</label>
                     <Select value={selectGroup} onChange={changeGroupHandler}>
-                      {group.map((item) => {
+                      {group.map((item, idx) => {
                         return (
-                          <MenuItem value={item.GROUP_IDX}>
+                          <MenuItem value={item.GROUP_IDX} key={idx}>
                             {item.name}
                           </MenuItem>
                         );

@@ -18,8 +18,8 @@ export default function UserList({ data }) {
     setLoading(true);
     await APIs.getUserList()
       .then((res) => {
-        let newArr = res?.map((item, idx) => {
-          return item || "";
+        let newArr = res?.filter((item, idx) => {
+          return item.SORTATION !== 1;
         });
         setUser(newArr);
         setLoading(false);
@@ -29,10 +29,6 @@ export default function UserList({ data }) {
         alert("잠시후에 다시 시도해주세요.");
       });
   }, []);
-
-  console.log("--------");
-  console.log(user);
-  console.log("--------");
 
   const columns = [
     { field: "USER_IDX", headerName: "ID", width: 90 },

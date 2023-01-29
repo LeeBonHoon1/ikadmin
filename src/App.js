@@ -15,7 +15,6 @@ import NoticeList from "./pages/noticeList/NoticeList";
 import Log from "./pages/log/Log";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchHome } from "./slices/admission";
-import { fetchGroup } from "./slices/group";
 import { useEffect } from "react";
 import NoticeDetail from "./pages/noticeDetail/NoticeDetail";
 
@@ -27,7 +26,6 @@ function App() {
 
   useEffect(() => {
     dispatch(fetchHome());
-    dispatch(fetchGroup());
   }, []);
 
   return (

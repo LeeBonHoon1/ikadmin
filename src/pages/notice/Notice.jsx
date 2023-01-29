@@ -1,5 +1,5 @@
 import "./Notice.css";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   Typography,
   TextField,
@@ -13,17 +13,6 @@ import { useSelector } from "react-redux";
 import APIs from "../../lib/APIs";
 import { useHistory } from "react-router-dom";
 
-const group = [
-  {
-    value: "A",
-    label: "A",
-  },
-  {
-    value: "B",
-    label: "B",
-  },
-];
-
 export default function Notice() {
   const history = useHistory();
   const userInfo = useSelector((state) => state.user);
@@ -32,6 +21,17 @@ export default function Notice() {
   const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [target, setTarget] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [group, setGroup] = useState([]);
+  const [selectGroup, setSelectGroup] = useState("");
+
+  useEffect(() => {
+    getGroupList();
+  }, []);
+
+  const changeGroupHandler = useCallback((e) => {
+    setSelectGroup(e.target.value);
+  }, []);
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -40,6 +40,23 @@ export default function Notice() {
   const contentHandler = (e) => {
     setContent(e.target.value);
   };
+
+  const getGroupList = useCallback(async () => {
+    setLoading(true);
+    await APIs.getGroupList()
+      .then((res) => {
+        let newArr = res.map((item) => {
+          return item;
+        });
+        setGroup(newArr);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        alert("잠시후에 다시 시도해주세요.");
+      });
+  }, []);
 
   const selectHandler = (e) => {
     e.target.value === "group"
@@ -63,9 +80,8 @@ export default function Notice() {
       title: title,
       content: content,
       userIdx: userInfo.userIdx,
-      // target: select === all ? 0 : target
+      target: select === "all" ? 0 : selectGroup,
     };
-
     await APIs.createNotice(param)
       .then((res) => {
         console.log("createNotice :::", res);
@@ -118,14 +134,15 @@ export default function Notice() {
                 id="outlined-select-currency"
                 select
                 helperText="그룹을 선택해주세요."
-                onChange={targetHandler}
+                value={selectGroup}
+                onChange={changeGroupHandler}
                 style={{
                   marginTop: "10px",
                 }}
               >
-                {group.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
+                {group.map((option, idx) => (
+                  <MenuItem value={option.GROUP_IDX} key={idx}>
+                    {option.name}
                   </MenuItem>
                 ))}
               </TextField>
