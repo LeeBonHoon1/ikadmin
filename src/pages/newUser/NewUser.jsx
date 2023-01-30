@@ -27,16 +27,10 @@ export default function NewUser() {
     p: 4,
   };
 
-  const history = useHistory();
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [group, setGroup] = useState([]);
-  const [userId, setUserId] = useState("");
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => setOpen(false);
+
   const [selectGroup, setSelectGroup] = useState("");
 
   useEffect(() => {
@@ -104,13 +98,23 @@ export default function NewUser() {
       renderCell: (params) => {
         return (
           <Select
-            value={selectGroup}
-            onChange={changeGroupHandler}
+            value={params?.groupName || ""}
+            onChange={(e) => {
+              const temp = user.map((v) => {
+                if (v.USER_IDX === params.id) {
+                  v.groupId = e.target.value.GROUP_IDX;
+                  v.groupName = e.target.value.name;
+                }
+                return v;
+              });
+              setUser(temp);
+              // changeGroupHasndler()
+            }}
             style={{ width: "200px" }}
           >
             {group.map((item, idx) => {
               return (
-                <MenuItem value={item.GROUP_IDX} key={idx}>
+                <MenuItem value={item} key={idx}>
                   {item.name}
                 </MenuItem>
               );
@@ -138,11 +142,9 @@ export default function NewUser() {
                   .then((res) => {
                     getUserList();
                     alert("승인됐습니다");
-                    setOpen(false);
                   })
                   .catch((err) => {
                     alert("잠시 후 다시 시도해주세요");
-                    setOpen(false);
                   });
               }}
             >
