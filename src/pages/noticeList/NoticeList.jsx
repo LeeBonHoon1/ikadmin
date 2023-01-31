@@ -2,6 +2,7 @@ import { DataGrid } from "@material-ui/data-grid";
 import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Loading from "../../components/loading/Loading";
 
 import APIs from "../../lib/APIs";
 import moment from "moment";
@@ -99,7 +100,9 @@ export default function UserList() {
             getRowId={(row) => row?.NOTICE_IDX}
           />
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

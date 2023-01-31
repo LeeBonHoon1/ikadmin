@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 import APIs from "../../lib/APIs";
+import Loading from "../../components/loading/Loading";
 
 export default function UserList({ data }) {
   const history = useHistory();
@@ -95,7 +96,9 @@ export default function UserList({ data }) {
             getRowId={(row) => row.USER_IDX}
           />
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

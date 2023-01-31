@@ -2,6 +2,7 @@ import "./newUser.css";
 import { DataGrid } from "@material-ui/data-grid";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
+
 import {
   Typography,
   Modal,
@@ -11,22 +12,9 @@ import {
   Button,
 } from "@material-ui/core";
 import APIs from "../../lib/APIs";
+import Loading from "../../components/loading/Loading";
 
 export default function NewUser() {
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    height: 150,
-    backgroundColor: "white",
-    border: "1px solid #fff",
-    boxShadow: 24,
-    borderRadius: "5px",
-    p: 4,
-  };
-
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [group, setGroup] = useState([]);
@@ -71,10 +59,6 @@ export default function NewUser() {
       });
   }, []);
 
-  const changeGroupHandler = useCallback((e) => {
-    setSelectGroup(e.target.value);
-  }, []);
-
   const columns = [
     { field: "USER_IDX", headerName: "ID", width: 90 },
     {
@@ -98,7 +82,7 @@ export default function NewUser() {
       renderCell: (params) => {
         return (
           <Select
-            value={params?.groupName || ""}
+            value={user.groupName}
             onChange={(e) => {
               const temp = user.map((v) => {
                 if (v.USER_IDX === params.id) {
@@ -108,7 +92,6 @@ export default function NewUser() {
                 return v;
               });
               setUser(temp);
-              // changeGroupHasndler()
             }}
             style={{ width: "200px" }}
           >
@@ -135,16 +118,23 @@ export default function NewUser() {
               onClick={async () => {
                 const param = {
                   idx: params.row.USER_IDX,
-                  group_idx: selectGroup,
+                  group_idx: params.row.groupId,
                   admission: 1,
                 };
+                if (!param.group_idx) {
+                  alert("그룹을 지정해주세요");
+                  return;
+                }
+                setLoading(true);
                 await APIs.userAdmission(param)
                   .then((res) => {
                     getUserList();
+                    setLoading(false);
                     alert("승인됐습니다");
                   })
                   .catch((err) => {
                     alert("잠시 후 다시 시도해주세요");
+                    setLoading(false);
                   });
               }}
             >
@@ -173,7 +163,9 @@ export default function NewUser() {
             getRowId={(row) => row.USER_IDX}
           />
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

@@ -2,6 +2,7 @@ import { Link, useLocation, useHistory } from "react-router-dom";
 import "./product.css";
 import { useEffect, useState, useCallback } from "react";
 import { DataGrid } from "@material-ui/data-grid";
+import Loading from "../../components/loading/Loading";
 import APIs from "../../lib/APIs";
 
 export default function Product() {
@@ -87,7 +88,9 @@ export default function Product() {
             getRowId={(row) => row.USER_IDX}
           />
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

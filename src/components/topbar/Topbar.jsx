@@ -5,6 +5,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { useAppDispatch } from "../../store/index";
 import userSlice from "../../slices/user";
 import { useHistory } from "react-router-dom";
+import Loading from "../../components/loading/Loading";
 import APIs from "../../lib/APIs";
 
 export default function Topbar() {
@@ -39,7 +40,9 @@ export default function Topbar() {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

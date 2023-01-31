@@ -6,6 +6,7 @@ import APIs from "../../lib/APIs";
 import { Button, Typography, Modal, Box, TextField } from "@material-ui/core";
 import AddStudent from "./AddStudent";
 import { useSelector } from "react-redux";
+import Loading from "../../components/loading/Loading";
 
 export default function Group() {
   const { data } = useSelector((store) => store.admission);
@@ -179,7 +180,9 @@ export default function Group() {
             </Box>
           </Modal>
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

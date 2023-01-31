@@ -3,6 +3,7 @@ import { Visibility } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import Loading from "../../components/loading/Loading";
 
 export default function WidgetSm({ test, loading }) {
   const history = useHistory();
@@ -51,7 +52,9 @@ export default function WidgetSm({ test, loading }) {
             })}
           </ul>
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

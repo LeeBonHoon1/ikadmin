@@ -1,6 +1,7 @@
 import { Button, MenuItem, Select, NativeSelect } from "@material-ui/core";
 import { useCallback, useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import Loading from "../../components/loading/Loading";
 import APIs from "../../lib/APIs";
 import "./user.css";
 
@@ -154,7 +155,9 @@ export default function User() {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }
