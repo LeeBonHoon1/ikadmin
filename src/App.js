@@ -15,23 +15,22 @@ import NoticeList from "./pages/noticeList/NoticeList";
 import Log from "./pages/log/Log";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchHome } from "./slices/admission";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import NoticeDetail from "./pages/noticeDetail/NoticeDetail";
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(
-    (state) => !!state.user.email && state.user.sortation === 1
-  );
+  const login = useSelector((state) => state.user.isLoggedIn);
+  const isLoggedIn = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    dispatch(fetchHome());
+    if (isLoggedIn) dispatch(fetchHome());
   }, []);
 
   return (
     <>
       <Router>
-        {isLoggedIn ? (
+        {login ? (
           <>
             <Topbar />
             <div className="container">

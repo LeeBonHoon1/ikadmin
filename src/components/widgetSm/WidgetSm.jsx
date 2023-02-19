@@ -1,7 +1,6 @@
 import "./widgetSm.css";
 import { Visibility } from "@material-ui/icons";
 import { useHistory } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import Loading from "../../components/loading/Loading";
 

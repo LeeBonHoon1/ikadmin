@@ -3,22 +3,33 @@ import { DataGrid } from "@material-ui/data-grid";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import APIs from "../../lib/APIs";
-import { Button, Typography, Modal, Box, TextField } from "@material-ui/core";
+import { Typography, Modal, Box, TextField, Button } from "@material-ui/core";
 import AddStudent from "./AddStudent";
 import { useSelector } from "react-redux";
 import Loading from "../../components/loading/Loading";
 
 export default function Group() {
   const { data } = useSelector((store) => store.admission);
+  const { userIdx } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [group, setGroup] = useState([]);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [loading, setLoading] = useState(false);
+  const [group, setGroup] = useState([]);
+  const [groupName, setGroupName] = useState("");
+  const [groupDesc, setGroupDesc] = useState("");
 
   useEffect(() => {
     getGroupList();
   }, []);
+
+  const groupNameHandler = (e) => {
+    setGroupName(e.target.value);
+  };
+
+  const groupDescHandler = (e) => {
+    setGroupDesc(e.target.value);
+  };
 
   const getGroupList = useCallback(async () => {
     setLoading(true);
@@ -34,6 +45,27 @@ export default function Group() {
       .catch((err) => {
         setLoading(false);
         alert("잠시후에 다시 시도해주세요.");
+      });
+  }, []);
+
+  const makeGroup = useCallback(async () => {
+    setLoading(true);
+    const param = {
+      teacherIdx: userIdx,
+      comment: groupDesc,
+      groupName,
+    };
+
+    await APIs.makeGroup(param)
+      .then((res) => {
+        alert("그룹이 생성되었습니다.");
+        setOpen(false);
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert("잠시후 다시 시도해주세요.");
+        setLoading(false);
+        setOpen(false);
       });
   }, []);
 
@@ -136,7 +168,9 @@ export default function Group() {
                       id="outlined-password-input"
                       label="그룹명"
                       autoComplete="current-password"
-                      style={{ marginBottom: "10px", width: "140px" }}
+                      value={groupName}
+                      onChange={groupNameHandler}
+                      style={{ width: "140px" }}
                     />
                   </Box>
                   <Box>
@@ -144,38 +178,15 @@ export default function Group() {
                       id="outlined-password-input"
                       label="그룹설명"
                       autoComplete="current-password"
-                      style={{ marginBottom: "10px", width: "140px" }}
+                      value={groupDesc}
+                      onChange={groupDescHandler}
+                      style={{ width: "140px" }}
                     />
                   </Box>
-                  <Box>
-                    <TextField
-                      id="outlined-password-input"
-                      label="Password"
-                      autoComplete="current-password"
-                      style={{ marginBottom: "10px", width: "140px" }}
-                    />
-                  </Box>
+                  <Button color="primary" onClick={makeGroup}>
+                    생성
+                  </Button>
                 </Box>
-              </Box>
-              <AddStudent data={data} />
-              <Box
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  padding: "30px",
-                }}
-              >
-                <Button
-                  color="secondary"
-                  variant="outlined"
-                  style={{ marginRight: "10px" }}
-                  onClick={handleClose}
-                >
-                  닫기
-                </Button>
-                <Button color="primary" variant="outlined">
-                  확인
-                </Button>
               </Box>
             </Box>
           </Modal>

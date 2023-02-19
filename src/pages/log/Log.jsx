@@ -1,67 +1,99 @@
 import "./log.css";
 import { DataGrid } from "@material-ui/data-grid";
-import { DeleteOutline } from "@material-ui/icons";
-import { userRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Typography } from "@material-ui/core";
+import APIs from "../../lib/APIs";
+import Loading from "../../components/loading/Loading";
+import { useEffect } from "react";
+import moment from "moment";
 
 export default function Log() {
-  const [data, setData] = useState(userRows);
+  const [loading, setLoading] = useState(false);
+  const [log, setLog] = useState([]);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  useEffect(() => {
+    getLogList();
+  }, []);
+
+  const getLogList = useCallback(async () => {
+    setLoading(true);
+    await APIs.getNoticeList()
+      .then((res) => {
+        let newArr = res.map((item) => {
+          return item;
+        });
+
+        setLog(newArr);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        alert("잠시후에 다시 시도해주세요.");
+      });
+  }, []);
 
   const columns = [
-    { field: "id", headerName: "ID", width: 90 },
+    { field: "NOTICE_IDX", headerName: "id", width: 90 },
     {
-      field: "username",
-      headerName: "이름",
+      field: "NAME",
+      headerName: "작성자",
       width: 150,
       renderCell: (params) => {
-        return <div className="logUser">{params.row.username}</div>;
+        return <div className="logUser">{params.row.NAME}</div>;
       },
     },
-    { field: "email", headerName: "이메일", width: 200 },
+    { field: "TITLE", headerName: "공지제목", width: 200 },
     {
-      field: "number",
-      headerName: "연락처",
+      field: "CONTENT",
+      headerName: "내용",
       width: 170,
     },
     {
-      field: "group",
+      field: "GROUP_NAME",
       headerName: "그룹",
-      width: 150,
+      width: 170,
+      renderCell: (params) => {
+        return (
+          <div className="logUser">
+            {params.row.GROUP_NAME ? params.row.GROUP_NAME : "전체"}
+          </div>
+        );
+      },
     },
     {
-      field: "action",
-      headerName: "수정",
+      field: "REG_DATE",
+      headerName: "작성일",
       width: 150,
       renderCell: (params) => {
         return (
-          <>
-            <Link to={"/user/" + params.row.id}>
-              <button className="logEdit">수정</button>
-            </Link>
-          </>
+          <div className="logUser">
+            {moment(params.row.REG_DATE).format("YYYY-MM-DD")}
+          </div>
         );
       },
     },
   ];
 
   return (
-    <div className="log">
-      <Typography variant="h4" style={{ marginBottom: "10px" }}>
-        로그
-      </Typography>
-      <DataGrid
-        rows={data}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={10}
-        checkboxSelection
-      />
-    </div>
+    <>
+      {!loading ? (
+        <div className="log">
+          <Typography variant="h4" style={{ marginBottom: "10px" }}>
+            로그
+          </Typography>
+          <DataGrid
+            rows={log}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={10}
+            checkboxSelection
+            getRowId={(row) => row.NOTICE_IDX}
+          />
+        </div>
+      ) : (
+        <Loading />
+      )}
+    </>
   );
 }

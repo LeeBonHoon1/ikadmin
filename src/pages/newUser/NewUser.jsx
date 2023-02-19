@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import APIs from "../../lib/APIs";
 import Loading from "../../components/loading/Loading";
+import moment from "moment/moment";
 
 export default function NewUser() {
   const [loading, setLoading] = useState(false);
@@ -74,6 +75,20 @@ export default function NewUser() {
       field: "NUMBER",
       headerName: "연락처",
       width: 170,
+    },
+    {
+      field: "create_at",
+      headerName: "가입신청일",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div className="userListUser">
+            {params.row.create_at
+              ? moment(params.row.create_at).format("YYYY-MM-DD HH:mm")
+              : ""}
+          </div>
+        );
+      },
     },
     {
       field: "그룹지정",

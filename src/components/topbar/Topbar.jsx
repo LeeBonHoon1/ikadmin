@@ -14,12 +14,19 @@ export default function Topbar() {
   const [loading, setLoading] = useState(false);
 
   const logoutHandler = () => {
+    localStorage.setItem("accessToken", "");
     dispatch(
       userSlice.actions.setUser({
         email: "",
+        name: "",
+        number: "",
+        password: "",
+        userIdx: 0,
+        sortation: 0,
+        token: "",
+        isLoggedIn: false,
       })
     );
-    history.push("/login");
   };
 
   return (

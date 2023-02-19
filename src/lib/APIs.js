@@ -78,6 +78,11 @@ const userRegistGroup = (body) => {
   return post({ url, body });
 };
 
+const makeGroup = (body) => {
+  const url = `${host}/group/makeGroup`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
@@ -94,6 +99,7 @@ const APIs = {
   editUser,
   userRegistGroup,
   userAdmission,
+  makeGroup,
 };
 
 export default APIs;

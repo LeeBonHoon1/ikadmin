@@ -94,18 +94,20 @@ const Login = () => {
       .then((res) => {
         dispatch(
           userSlice.actions.setUser({
-            email: res[0].EMAIL,
-            name: res[0].NAME,
-            number: res[0].NUMBER,
-            password: res[0].PASSWORD,
-            userIdx: res[0].USER_IDX,
-            sortation: res[0].SORTATION,
+            email: res.userInfo.EMAIL,
+            name: res.userInfo.NAME,
+            number: res.userInfo.NUMBER,
+            password: res.userInfo.PASSWORD,
+            userIdx: res.userInfo.USER_IDX,
+            sortation: res.userInfo.SORTATION,
+            token: res.token,
+            isLoggedIn: true,
           })
         );
-
-        setLoading(false);
+        localStorage.setItem("accessToken", res.token);
         resetInput();
         history.push("/");
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);

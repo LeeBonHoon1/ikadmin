@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import { Box } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,6 +9,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +35,9 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferList({ data }) {
+export default function AddStudent({ data, handleClose }) {
+  console.log("data >>", data);
+  const userInfo = useSelector((state) => state.user);
   const classes = useStyles();
   const [checked, setChecked] = useState([]);
   const [left, setLeft] = useState([]);
@@ -74,6 +78,22 @@ export default function TransferList({ data }) {
     setChecked(not(checked, rightChecked));
   };
 
+  const makeGroup = async () => {
+    const studentIdx = right.map((item) => {
+      return item;
+    });
+
+    console.log("stduentIdx >>>", studentIdx);
+    const param = {
+      teacherIdx: userInfo.userIdx,
+      groupName: "group3",
+      comment: "string2",
+      studentIdxs: [],
+    };
+
+    // console.log(param);
+  };
+
   const customList = (items) => (
     <Paper className={classes.paper}>
       <List dense component="div" role="list">
@@ -105,33 +125,54 @@ export default function TransferList({ data }) {
   );
 
   return (
-    <Grid container spacing={2} alignItems="center" className={classes.root}>
-      <Grid item>{customList(left)}</Grid>
-      <Grid item>
-        <Grid container direction="column" alignItems="center">
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleCheckedRight}
-            disabled={leftChecked.length === 0}
-            aria-label="move selected right"
-          >
-            &gt;
-          </Button>
-          <Button
-            variant="outlined"
-            size="small"
-            className={classes.button}
-            onClick={handleCheckedLeft}
-            disabled={rightChecked.length === 0}
-            aria-label="move selected left"
-          >
-            &lt;
-          </Button>
+    <>
+      <Grid container spacing={2} alignItems="center" className={classes.root}>
+        <Grid item>{customList(left)}</Grid>
+        <Grid item>
+          <Grid container direction="column" alignItems="center">
+            <Button
+              variant="outlined"
+              size="small"
+              className={classes.button}
+              onClick={handleCheckedRight}
+              disabled={leftChecked.length === 0}
+              aria-label="move selected right"
+            >
+              &gt;
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              className={classes.button}
+              onClick={handleCheckedLeft}
+              disabled={rightChecked.length === 0}
+              aria-label="move selected left"
+            >
+              &lt;
+            </Button>
+          </Grid>
         </Grid>
+        <Grid item>{customList(right)}</Grid>
       </Grid>
-      <Grid item>{customList(right)}</Grid>
-    </Grid>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "30px",
+        }}
+      >
+        <Button
+          color="secondary"
+          variant="outlined"
+          style={{ marginRight: "10px" }}
+          onClick={handleClose}
+        >
+          닫기
+        </Button>
+        <Button color="primary" variant="outlined" onClick={makeGroup}>
+          확인
+        </Button>
+      </Box>
+    </>
   );
 }
