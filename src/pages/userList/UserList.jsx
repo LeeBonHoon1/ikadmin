@@ -91,7 +91,7 @@ export default function UserList({ data }) {
             columns={columns.map((item) => ({
               ...item,
             }))}
-            pageSize={10}
+            pageSize={15}
             checkboxSelection
             getRowId={(row) => row.USER_IDX}
           />

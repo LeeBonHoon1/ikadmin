@@ -1,7 +1,7 @@
 import axios from "axios";
 
-let token = localStorage.getItem("accessToken");
-axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+// let token = localStorage.getItem("accessToken");
+// axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
 export const get = async ({ url, params = {}, headers = {} }) => {
   try {

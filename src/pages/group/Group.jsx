@@ -60,6 +60,7 @@ export default function Group() {
       .then((res) => {
         alert("그룹이 생성되었습니다.");
         setOpen(false);
+        getGroupList();
         setLoading(false);
       })
       .catch((err) => {
@@ -67,7 +68,7 @@ export default function Group() {
         setLoading(false);
         setOpen(false);
       });
-  }, []);
+  }, [groupName, groupDesc, userIdx]);
 
   const style = {
     position: "absolute",

@@ -14,14 +14,23 @@ import {
 import APIs from "../../lib/APIs";
 import Loading from "../../components/loading/Loading";
 import moment from "moment/moment";
+import axios from "axios";
+
+const serverKey =
+  "AAAAIQxMYFY:APA91bFhPnAudaMRohshUcYC1vhjZrvvW5b5z1YEC4PS5P-adke7Mh1925oh7fYV16lSZrrtRs003vX_DeXZbLD_9VRrhIz--h0jgeRjxw7bXFadbo9DNoVjfS8ogp16yf8Nvx0z41kD";
+const fcmUrl = "https://fcm.googleapis.com/fcm/send";
+
+const headers = {
+  "Content-Type": "application/json",
+  Authorization: "key=" + serverKey,
+};
 
 export default function NewUser() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [group, setGroup] = useState([]);
-
+  const [fbToken, setFbToken] = useState("");
   const [selectGroup, setSelectGroup] = useState("");
-
   useEffect(() => {
     getUserList();
     getGroupList();
@@ -59,6 +68,46 @@ export default function NewUser() {
         alert("잠시후에 다시 시도해주세요.");
       });
   }, []);
+
+  async function newPostPush(token) {
+    const message = {
+      notification: {
+        body: "회원가입 승인됐습니다",
+        title: "이강학원",
+      },
+      to: token,
+    };
+    await axios
+      .post(fcmUrl, message, { headers })
+      .then((response) => {
+        console.log("success", response.data);
+      })
+      .catch((error) => {
+        console.error("error", error.response.data.error);
+      });
+    // fetch(url, {
+    //   method: "POST",
+    //   body: JSON.stringify(message),
+    //   headers: new Headers({
+    //     "Content-type": "application/json",
+    //     Authorization:
+    //       "key=AAAAIQxMYFY:APA91bEiP8eLNP-UGtZhFdvLn0Gkh0G6dVTkB2u8dx-7a6CRHyF7Jk5iJUVwVNVsoynLuLGwNekQlW1znZDLtQLbMnC8i9KBE-1dUn5-_kIh6kVLnAzxcbS5yt-XbQOWTBMBtB50s74z",
+    //   }),
+    // })
+    //   .then((response) => {
+    //     if (response.status < 200 || response.status >= 400) {
+    //       throw (
+    //         "Error subscribing to topic: " +
+    //         response.status +
+    //         " - " +
+    //         response.text()
+    //       );
+    //     }
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+  }
 
   const columns = [
     { field: "USER_IDX", headerName: "ID", width: 90 },
@@ -143,9 +192,11 @@ export default function NewUser() {
                 setLoading(true);
                 await APIs.userAdmission(param)
                   .then((res) => {
-                    getUserList();
+                    console.log(res.userInfo.PUSH_TOKEN);
+                    newPostPush(res.userInfo.PUSH_TOKEN);
                     setLoading(false);
-                    alert("승인됐습니다");
+                    getUserList();
+                    // setFbToken(res.userInfo.PUSH_TOKEN);
                   })
                   .catch((err) => {
                     alert("잠시 후 다시 시도해주세요");
