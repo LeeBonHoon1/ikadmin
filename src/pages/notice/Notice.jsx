@@ -12,6 +12,7 @@ import {
 import { useSelector } from "react-redux";
 import APIs from "../../lib/APIs";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
 export default function Notice() {
   const history = useHistory();
@@ -24,6 +25,15 @@ export default function Notice() {
   const [loading, setLoading] = useState(false);
   const [group, setGroup] = useState([]);
   const [selectGroup, setSelectGroup] = useState("");
+
+  const fcmUrl = "https://fcm.googleapis.com/fcm/send";
+  const serverKey =
+    "AAAAIQxMYFY:APA91bFhPnAudaMRohshUcYC1vhjZrvvW5b5z1YEC4PS5P-adke7Mh1925oh7fYV16lSZrrtRs003vX_DeXZbLD_9VRrhIz--h0jgeRjxw7bXFadbo9DNoVjfS8ogp16yf8Nvx0z41kD";
+
+  const headers = {
+    "Content-Type": "application/json",
+    Authorization: "key=" + serverKey,
+  };
 
   useEffect(() => {
     getGroupList();
@@ -88,6 +98,23 @@ export default function Notice() {
         resetInput();
         history.push("/noticelist");
         alert("공지가 등록됐습니다.");
+        async function newPostPush(token) {
+          const message = {
+            notification: {
+              body: "공지가 등록되었습니다.",
+              title: "이강학원",
+            },
+            to: token,
+          };
+          await axios
+            .post(fcmUrl, message, { headers })
+            .then((response) => {
+              console.log("success", response.data);
+            })
+            .catch((error) => {
+              console.error("error", error.response.data.error);
+            });
+        }
       })
       .catch((err) => {
         console.log(err);

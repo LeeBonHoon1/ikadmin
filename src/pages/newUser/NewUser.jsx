@@ -29,8 +29,6 @@ export default function NewUser() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState([]);
   const [group, setGroup] = useState([]);
-  const [fbToken, setFbToken] = useState("");
-  const [selectGroup, setSelectGroup] = useState("");
   useEffect(() => {
     getUserList();
     getGroupList();
@@ -85,28 +83,6 @@ export default function NewUser() {
       .catch((error) => {
         console.error("error", error.response.data.error);
       });
-    // fetch(url, {
-    //   method: "POST",
-    //   body: JSON.stringify(message),
-    //   headers: new Headers({
-    //     "Content-type": "application/json",
-    //     Authorization:
-    //       "key=AAAAIQxMYFY:APA91bEiP8eLNP-UGtZhFdvLn0Gkh0G6dVTkB2u8dx-7a6CRHyF7Jk5iJUVwVNVsoynLuLGwNekQlW1znZDLtQLbMnC8i9KBE-1dUn5-_kIh6kVLnAzxcbS5yt-XbQOWTBMBtB50s74z",
-    //   }),
-    // })
-    //   .then((response) => {
-    //     if (response.status < 200 || response.status >= 400) {
-    //       throw (
-    //         "Error subscribing to topic: " +
-    //         response.status +
-    //         " - " +
-    //         response.text()
-    //       );
-    //     }
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
   }
 
   const columns = [
