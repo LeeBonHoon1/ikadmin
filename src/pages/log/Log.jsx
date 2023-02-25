@@ -68,7 +68,7 @@ export default function Log() {
       renderCell: (params) => {
         return (
           <div className="logUser">
-            {moment(params.row.REG_DATE).format("YYYY-MM-DD")}
+            {moment(params.row.REG_DATE).format("YYYY-MM-DD HH:mm:ss")}
           </div>
         );
       },

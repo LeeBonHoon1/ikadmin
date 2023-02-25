@@ -26,9 +26,8 @@ export default function Notice() {
   const [group, setGroup] = useState([]);
   const [selectGroup, setSelectGroup] = useState("");
 
-  const fcmUrl = "https://fcm.googleapis.com/fcm/send";
-  const serverKey =
-    "AAAAIQxMYFY:APA91bFhPnAudaMRohshUcYC1vhjZrvvW5b5z1YEC4PS5P-adke7Mh1925oh7fYV16lSZrrtRs003vX_DeXZbLD_9VRrhIz--h0jgeRjxw7bXFadbo9DNoVjfS8ogp16yf8Nvx0z41kD";
+  const fcmUrl = process.env.REACT_APP_FIREBASEURL;
+  const serverKey = process.env.REACT_APP_FIREBASEKEY;
 
   const headers = {
     "Content-Type": "application/json",
@@ -50,6 +49,24 @@ export default function Notice() {
   const contentHandler = (e) => {
     setContent(e.target.value);
   };
+
+  async function newPostPush(token) {
+    const message = {
+      notification: {
+        body: "공지가 등록되었습니다.",
+        title: "이강학원",
+      },
+      to: token,
+    };
+    await axios
+      .post(fcmUrl, message, { headers })
+      .then((response) => {
+        console.log("success", response.data);
+      })
+      .catch((error) => {
+        console.error("error", error.response.data.error);
+      });
+  }
 
   const getGroupList = useCallback(async () => {
     setLoading(true);
@@ -96,25 +113,9 @@ export default function Notice() {
       .then((res) => {
         console.log("createNotice :::", res);
         resetInput();
+        // newPostPush();
         history.push("/noticelist");
         alert("공지가 등록됐습니다.");
-        async function newPostPush(token) {
-          const message = {
-            notification: {
-              body: "공지가 등록되었습니다.",
-              title: "이강학원",
-            },
-            to: token,
-          };
-          await axios
-            .post(fcmUrl, message, { headers })
-            .then((response) => {
-              console.log("success", response.data);
-            })
-            .catch((error) => {
-              console.error("error", error.response.data.error);
-            });
-        }
       })
       .catch((err) => {
         console.log(err);

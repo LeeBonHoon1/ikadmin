@@ -16,9 +16,8 @@ import Loading from "../../components/loading/Loading";
 import moment from "moment/moment";
 import axios from "axios";
 
-const serverKey =
-  "AAAAIQxMYFY:APA91bFhPnAudaMRohshUcYC1vhjZrvvW5b5z1YEC4PS5P-adke7Mh1925oh7fYV16lSZrrtRs003vX_DeXZbLD_9VRrhIz--h0jgeRjxw7bXFadbo9DNoVjfS8ogp16yf8Nvx0z41kD";
-const fcmUrl = "https://fcm.googleapis.com/fcm/send";
+const fcmUrl = process.env.REACT_APP_FIREBASEURL;
+const serverKey = process.env.REACT_APP_FIREBASEKEY;
 
 const headers = {
   "Content-Type": "application/json",
