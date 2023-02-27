@@ -14,7 +14,9 @@ export default function Topbar() {
   const [loading, setLoading] = useState(false);
 
   const logoutHandler = () => {
-    localStorage.setItem("accessToken", "");
+    localStorage.removeItem("id");
+    localStorage.removeItem("pw");
+    localStorage.removeItem("loginStatus");
     dispatch(
       userSlice.actions.setUser({
         email: "",
