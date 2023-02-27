@@ -83,6 +83,16 @@ const makeGroup = (body) => {
   return post({ url, body });
 };
 
+const rejectMember = (body) => {
+  const url = `${host}/users/rejectMember`;
+  return post({ url, body });
+};
+
+const getTokens = (body) => {
+  const url = `${host}/group/getGroupTokens`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
@@ -100,6 +110,8 @@ const APIs = {
   userRegistGroup,
   userAdmission,
   makeGroup,
+  rejectMember,
+  getTokens,
 };
 
 export default APIs;

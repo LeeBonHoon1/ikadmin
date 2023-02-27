@@ -25,7 +25,7 @@ function App() {
   const dispatch = useDispatch();
   const login = useSelector((state) => state.user.isLoggedIn);
   const history = useHistory();
-  // const isLoggedIn = localStorage.getItem("accessToken");
+  // const isLoggedIn = sessionStorage.getItem("accessToken");
 
   const loginSubmit = useCallback(
     async (id, pw) => {
@@ -47,7 +47,7 @@ function App() {
               isLoggedIn: true,
             })
           );
-          localStorage.setItem("accessToken", res.token);
+          sessionStorage.setItem("accessToken", res.token);
           history.push("/");
         })
         .catch((err) => {
@@ -59,10 +59,10 @@ function App() {
   );
 
   useEffect(() => {
-    const loginStatus = localStorage.getItem("loginStatus");
+    const loginStatus = sessionStorage.getItem("loginStatus");
     if (loginStatus === "true") {
-      const id = localStorage.getItem("id");
-      const pw = localStorage.getItem("pw");
+      const id = sessionStorage.getItem("id");
+      const pw = sessionStorage.getItem("pw");
       loginSubmit(id, pw);
     }
     // if (login) dispatch(fetchHome());

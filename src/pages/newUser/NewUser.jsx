@@ -181,7 +181,25 @@ export default function NewUser() {
             >
               승인
             </button>
-            <button className="userListDelete">거절</button>
+            <button
+              className="userListDelete"
+              onClick={async () => {
+                setLoading(true);
+                const param = { user_idx: Number(params.row.USER_IDX) };
+                await APIs.rejectMember(param)
+                  .then((res) => {
+                    alert("거절 되었습니다");
+                    setLoading(false);
+                    getUserList();
+                  })
+                  .catch((err) => {
+                    alert("잠시 후 다시 시도해주세요");
+                    setLoading(false);
+                  });
+              }}
+            >
+              거절
+            </button>
           </>
         );
       },

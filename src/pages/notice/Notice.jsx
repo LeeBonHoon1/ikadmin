@@ -14,6 +14,8 @@ import APIs from "../../lib/APIs";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
+let groupIndex = [];
+
 export default function Notice() {
   const history = useHistory();
   const userInfo = useSelector((state) => state.user);
@@ -23,6 +25,8 @@ export default function Notice() {
   const [title, setTitle] = useState("");
   const [target, setTarget] = useState("");
   const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState([]);
+
   const [group, setGroup] = useState([]);
   const [selectGroup, setSelectGroup] = useState("");
 
@@ -38,9 +42,24 @@ export default function Notice() {
     getGroupList();
   }, []);
 
-  const changeGroupHandler = useCallback((e) => {
+  const changeGroupHandler = useCallback(async (e) => {
     setSelectGroup(e.target.value);
+    setLoading(true);
+    groupIndex = e.target.value;
+    getTk(groupIndex);
   }, []);
+
+  const getTk = async (groupIndex) => {
+    await APIs.getTokens({ idxs: groupIndex })
+      .then((res) => {
+        setToken(res.PUSH_TOKEN);
+        setLoading(false);
+      })
+      .catch((err) => {
+        alert("잠시 후 다시 시도해주세요");
+        setLoading(false);
+      });
+  };
 
   const titleHandler = (e) => {
     setTitle(e.target.value);
@@ -51,6 +70,7 @@ export default function Notice() {
   };
 
   async function newPostPush(token) {
+    console.log("token", token);
     const message = {
       notification: {
         body: "공지가 등록되었습니다.",
@@ -92,10 +112,6 @@ export default function Notice() {
     setSelect(e.target.value);
   };
 
-  const targetHandler = (e) => {
-    setTarget(e.target.value);
-  };
-
   const resetInput = () => {
     setTitle("");
     setContent("");
@@ -111,9 +127,8 @@ export default function Notice() {
     };
     await APIs.createNotice(param)
       .then((res) => {
-        console.log("createNotice :::", res);
         resetInput();
-        // newPostPush();
+        newPostPush(token);
         history.push("/noticelist");
         alert("공지가 등록됐습니다.");
       })
