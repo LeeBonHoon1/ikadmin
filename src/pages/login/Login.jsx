@@ -139,7 +139,6 @@ const Login = () => {
 
   const signupSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
     if (!signupName) {
       alert("이름을 입력해주세요");
       return;
@@ -165,19 +164,19 @@ const Login = () => {
       alert("연락처를 입력해주세요");
       return;
     }
-
+    setLoading(true);
     const param = {
       name: signupName,
       password: signupPassword,
       email: signupEmail,
       number: signupNumber,
-      sortation: !toggle ? 1 : 2,
+      sortation: 1,
     };
 
     APIs.signupRequest(param)
       .then((res) => {
-        if (param.sortation === 2) {
-          alert("관리자 승인 후 로그인해주세요!");
+        if (param.sortation === 1) {
+          alert("회원가입이 완료되었습니다.");
         }
         setLoading(false);
         resetInput();
@@ -227,15 +226,15 @@ const Login = () => {
 
           <form action="" className="sign-up-form">
             <div style={{ display: "flex" }}>
-              <h2 className="title" style={{ marginRight: "30px" }}>
+              <h2 className="title" style={{}}>
                 회원가입
               </h2>
-              <FormControlLabel
+              {/* <FormControlLabel
                 control={<Switch color="primary" />}
                 label={toggle ? "회원" : "강사"}
                 checked={toggle}
                 onChange={toggleChecked}
-              />
+              /> */}
             </div>
             <div className="input-field">
               <i class="fa-regular fa-user" />
@@ -281,10 +280,8 @@ const Login = () => {
                     color={"#fff"}
                     cssOverride={override}
                   />
-                ) : toggle ? (
-                  "회원가입"
                 ) : (
-                  "강사 회원가입"
+                  "회원가입"
                 )}
               </button>
             </div>
@@ -309,7 +306,7 @@ const Login = () => {
         <div className="panel right-panel">
           <div className="content">
             <h3>회원가입을 완료하셨나요?</h3>
-            <p>관리자 승인 후 로그인을 진행해주세요!</p>
+            <p>로그인을 진행해주세요!</p>
             <button
               className="btn transparent"
               id="sign-up-btn"
