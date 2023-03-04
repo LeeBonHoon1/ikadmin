@@ -6,8 +6,6 @@ import APIs from "../../lib/APIs";
 import { useAppDispatch } from "../../store/index";
 import userSlice from "../../slices/user";
 import ClockLoader from "react-spinners/ClockLoader";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 
 const override = {
@@ -21,12 +19,6 @@ const Login = () => {
   const loginContainer = useRef();
   const history = useHistory();
 
-  //toggle state
-  const [toggle, setToggle] = useState(true);
-  const toggleChecked = () => {
-    setToggle((prev) => !prev);
-  };
-
   //loading state
   const [loading, setLoading] = useState(false);
 
@@ -39,6 +31,7 @@ const Login = () => {
   const [signupPassword, setSignupPassword] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
   const [signupNumber, setSignupNumber] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   //reset input
   const resetInput = () => {
@@ -48,6 +41,7 @@ const Login = () => {
     setSignupNumber("");
     setLoginEmail("");
     setLoginPassword("");
+    setConfirmPassword("");
   };
 
   //login handler
@@ -121,12 +115,33 @@ const Login = () => {
   };
 
   //signup handler
+
+  const checkEmailHandler = async (e) => {
+    e.preventDefault();
+    console.log("-------------");
+    const checkEmailParam = {
+      email: signupEmail,
+    };
+
+    await APIs.checkEmail(checkEmailParam).then((res) => {
+      if (res) {
+        alert("이미 등록된 이메일입니다");
+      } else {
+        signupSubmit();
+      }
+    });
+  };
+
   const signupNameHandler = (e) => {
     setSignupName(e.target.value);
   };
 
   const signupPasswordHandler = (e) => {
     setSignupPassword(e.target.value);
+  };
+
+  const confirmPasswordHandler = (e) => {
+    setConfirmPassword(e.target.value);
   };
 
   const signupEmailHandler = (e) => {
@@ -137,8 +152,7 @@ const Login = () => {
     setSignupNumber(e.target.value);
   };
 
-  const signupSubmit = (e) => {
-    e.preventDefault();
+  const signupSubmit = async () => {
     if (!signupName) {
       alert("이름을 입력해주세요");
       return;
@@ -149,6 +163,11 @@ const Login = () => {
     }
     if (!signupEmail) {
       alert("이메일을 입력해주세요");
+      return;
+    }
+
+    if (signupPassword !== confirmPassword) {
+      alert("비밀번호가 일치하지 않습니다.");
       return;
     }
 
@@ -164,7 +183,9 @@ const Login = () => {
       alert("연락처를 입력해주세요");
       return;
     }
+
     setLoading(true);
+
     const param = {
       name: signupName,
       password: signupPassword,
@@ -266,6 +287,15 @@ const Login = () => {
             <div className="input-field">
               <i class="fa-regular fa-user" />
               <input
+                type="password"
+                placeholder="confirm Password"
+                value={confirmPassword}
+                onChange={confirmPasswordHandler}
+              />
+            </div>
+            <div className="input-field">
+              <i class="fa-regular fa-user" />
+              <input
                 type="text"
                 placeholder="number"
                 value={signupNumber}
@@ -273,7 +303,7 @@ const Login = () => {
               />
             </div>
             <div style={{ display: "flex" }}>
-              <button onClick={signupSubmit} className="btn solid">
+              <button onClick={checkEmailHandler} className="btn solid">
                 {loading ? (
                   <ClockLoader
                     size={25}

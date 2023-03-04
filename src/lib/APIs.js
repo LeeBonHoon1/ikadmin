@@ -1,7 +1,7 @@
 import { get, post } from "./index";
 
-const host =
-  "http://ec2-18-182-33-159.ap-northeast-1.compute.amazonaws.com:3000";
+export const host =
+  "http://ec2-35-78-85-163.ap-northeast-1.compute.amazonaws.com:3000";
 
 const getNoticeList = () => {
   const url = `${host}/notice/getNoticeList`;
@@ -93,6 +93,11 @@ const getTokens = (body) => {
   return post({ url, body });
 };
 
+const emailCheck = (body) => {
+  const url = `${host}/users/emailCheck`;
+  return post({ url, body });
+};
+
 const APIs = {
   getNoticeList,
   signupRequest,
@@ -112,6 +117,7 @@ const APIs = {
   makeGroup,
   rejectMember,
   getTokens,
+  emailCheck,
 };
 
 export default APIs;
